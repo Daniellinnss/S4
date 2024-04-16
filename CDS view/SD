@@ -1,0 +1,25 @@
+REPORT Z_EXEMPLO_LEITURA_TABELA_SD.
+
+TABLES: VBAK. " Tabela de Cabeçalho de Vendas
+
+TYPES: BEGIN OF ty_vbak,
+         vbeln TYPE vbeln,      " Número do Documento de Vendas
+         erdat TYPE erdat,      " Data de Criação do Documento
+         kunnr TYPE kunnr,      " Cliente
+       END OF ty_vbak.
+
+DATA: lt_vbak TYPE TABLE OF ty_vbak,
+      ls_vbak TYPE ty_vbak.
+
+START-OF-SELECTION.
+
+  SELECT vbeln erdat kunnr
+    INTO TABLE lt_vbak
+    FROM vbak
+    UP TO 10 ROWS. " Lê os primeiros 10 registros da tabela VBAK
+
+  WRITE: / 'Número do Documento', 'Data de Criação', 'Cliente'.
+
+  LOOP AT lt_vbak INTO ls_vbak.
+    WRITE: / ls_vbak-vbeln, ls_vbak-erdat, ls_vbak-kunnr.
+  ENDLOOP.
