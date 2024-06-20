@@ -1,0 +1,29 @@
+@AbapCatalog.sqlViewName: 'ZPATH'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'PATH'
+define view ZDL_CUSTOMER_WITH_PATH 
+with parameters P_flightsBefore: abap.dats
+ as select from ZDL_ASSOCIATION as c
+{
+    key c.customid as id,
+        c._customer.street,
+        c._customer.postcode,
+        c._customer.city,
+        c._customer.country,
+ @Semantics.amount.currencyCode: 'currency'
+  sum(c.amount) as amount,
+  c.currency,
+  avg(c.days_ahead) as days_ahead
+}
+where
+c.fldate < $parameters.P_flightsBefore
+group by 
+c.customid,
+c._customer.name,
+c._customer.street,
+c._customer.postcode,
+c._customer.city,
+c._customer.country,
+c.currency
