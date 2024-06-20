@@ -1,0 +1,11 @@
+@AbapCatalog.sqlViewAppendName: 'ZDLEXTENDED'
+@EndUserText.label: 'Extended view'
+extend view ZDL_EXTENDER with ZDL_EXTENDED
+association[1] to spfli as _connection
+               on B.carrid = _connection.carrid
+             and B.carrid  = _connection.connid 
+{
+    B.class,
+    B.counter,
+    _connection
+}
