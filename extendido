@@ -1,0 +1,23 @@
+@AbapCatalog.sqlViewName: 'ZBOOKIN3'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'INNER JOIN'
+define view ZDL_EXTENDER as select from ZDL_BOOKING as B
+     association [1..1] to ZDL_CUSTOMER as _customer on $projection.customid = _customer.id
+{
+    key B.carrid,
+    key B.connid,
+    key B.fldate,
+    key B.bookid,
+    B.customid,
+    B.amount,
+    B.currency,
+    B.days_ahead,
+    _customer
+//    c.name,
+//    c.street,
+//    c.postcode,
+//    c.city,
+//    c.country
+}
