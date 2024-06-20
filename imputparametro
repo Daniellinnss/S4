@@ -1,0 +1,30 @@
+@AbapCatalog.sqlViewName: 'ZPARANETRI'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'Imput parameter'
+define view ZDL_CUSTOMER_WITH_PARAMETER
+    with parameters p_flightsBefore : abap.dats
+as select from ZDL_BOOKING_AND_CUSTOMER as c
+{
+    key c.customid as id,
+    c.name,
+    c.street,
+    c.postcode,
+    c.city,
+    c.country,
+    @Semantics.amount.currencyCode: 'currency'
+    sum(c.amount) as amount,
+    c.currency,
+    avg(c.days_ahead) as days_ahead
+}
+where 
+ fldate < $parameters.p_flightsBefore
+ group by
+ c.customid,
+ c.name,
+ c.postcode,
+ c.street,
+ c.city,
+ c.country,
+ c.currency
