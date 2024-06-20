@@ -1,0 +1,36 @@
+@AbapCatalog.sqlViewName: 'ZDSL_UNION'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'Union entre customers & agencias'
+define view ZDL_PARTNER_WITH_REVENUE
+  as select from ZDL_CUSTOMER_WITH_REVENUE
+{
+  key id,
+      name,
+      street,
+      postcode,
+      city,
+      country,
+      currency,
+      days_ahead
+}
+union all
+
+select from ZDL_BOOKING
+{
+  
+  key connid as id,
+  key fldate,
+  key bookid,
+      class,
+      amount,
+      currency,
+      luggweight,
+      wunit,
+      order_date,
+      days_ahead,
+      agencynum,
+      counter,
+      customid
+}
