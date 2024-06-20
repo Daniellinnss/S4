@@ -1,0 +1,17 @@
+@AbapCatalog.sqlViewName: 'ZDL_CUSTOMER1'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'DISCONTO'
+define view ZDL_CUSTOMER as select from scustom as C
+{
+    key C.id,
+    concat_with_space(C.form, C.name, 1) as name,
+    C.street,
+    C.postcode,
+    C.city,
+    C.country,
+    @EndUserText.label: 'Fator disconto'
+    division(cast(C.discount as abap.int4), 100, 2) as discount
+}
+
